@@ -51,12 +51,17 @@ router.post('/',async (req,res)=>{
 
         const createUsersTableQuery = `
         CREATE TABLE IF NOT EXISTS users (
-          id INT PRIMARY KEY,
+          id VARCHAR(255) PRIMARY KEY,
           email VARCHAR(255) NOT NULL,
           password_hash VARCHAR(255) NOT NULL,
           location VARCHAR(255),
-          username VARCHAR(255) NOT NULL UNIQUE,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          phoneNumber VARCHAR(255) NOT NULL UNIQUE,
+          username VARCHAR(255) NOT NULL,
+          label VARCHAR(255) NOT NULL,
+          tags VARCHAR(255) NOT NULL,
+          isBan TINYINT(1) NOT NULL DEFAULT 0,
+          firstLogin TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          lastLogin TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
       `;
       await pool.query(createUsersTableQuery);
@@ -75,11 +80,16 @@ router.post('/',async (req,res)=>{
 });
 
 function generateRandomToken() {
-    let token = '';
-    for (let i = 0; i < 5; i++) {
-        token += Math.floor(Math.random() * 10); // Generate random digit (0-9)
-    }
-    return token;
+
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  let token = '';
+
+  for (let i = 0; i < 10; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      token += characters.charAt(randomIndex);
+  }
+
+  return token;
 }
 
 module.exports = router;

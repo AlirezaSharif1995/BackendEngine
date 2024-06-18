@@ -13,8 +13,7 @@ const pool = mysql.createPool({
   });
 
 router.post('/', async(req,res)=>{
-    const { email, password, location, username, schemaID } = req.body;
-    console.log(req.body)
+    const { email, password, location, username, schemaID, phoneNumber, label, tags } = req.body;
 
     try {
         const switchDatabaseQuery = `USE \`${schemaID}\``;
@@ -24,10 +23,16 @@ router.post('/', async(req,res)=>{
         if (existingUser.length > 0) {
             return res.status(400).json({ error: 'email is already registered' });
         }
-
         const hashedPassword = await bcrypt.hash(password, 10);
         const ID = generateRandomToken();
-        await pool.query('INSERT INTO users (ID, email, password_hash, location, username) VALUES (?, ?, ?, ?, ?)', [ID, email, hashedPassword, location, username, schemaID]);
+        let insertValues = [ID, email, hashedPassword];
+        if (location) insertValues.push(location); else insertValues.push(null);
+        if (phoneNumber) insertValues.push(phoneNumber); else insertValues.push(null);
+        if (username) insertValues.push(username); else insertValues.push(null);
+        if (label) insertValues.push(label); else insertValues.push(null);
+        if (tags) insertValues.push(tags); else insertValues.push(null);
+
+        await pool.query('INSERT INTO users (ID, email, password_hash, location, phoneNumber, username, label, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', insertValues);
         res.status(201).json({ message: 'User registered successfully', ID });
         
     } catch (error) {

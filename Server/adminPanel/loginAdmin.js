@@ -13,7 +13,7 @@ const pool = mysql.createPool({
     queueLimit: 0
   });
 
-  router.get('/',async (req,res)=>{
+  router.post('/',async (req,res)=>{
 
     const { email, password } = req.body;
 
@@ -31,8 +31,30 @@ const pool = mysql.createPool({
 
     const user = {
         schemaID: existingUser[0].schemaID,
-        adminID: existingUser[0].ID
+    };
 
+    res.status(200).json({ message: 'Login successful', user });
+
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error', details: error });
+    }
+    
+  });
+
+  router.post('/inAppLogin',async (req,res)=>{
+
+    const { ID } = req.body;
+
+    try {
+
+    const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE ID = ?', [ID]);
+    if (existingUser.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    const user = {
+        ID: existingUser[0].ID,
+        schemaID: existingUser[0].schemaID,
     };
 
     res.status(200).json({ message: 'Login successful', user });

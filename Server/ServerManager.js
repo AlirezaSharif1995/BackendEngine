@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use('/registerAdmin',registerAdmin);
 app.use('/loginAdmin',loginAdmin);
 app.use('/register', register);
-app.use('./login', login);
+app.use('/login', login);
 
 
 server.listen(PORT, () => {
