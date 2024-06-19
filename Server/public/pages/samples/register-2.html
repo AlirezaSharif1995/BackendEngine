@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Backend Engine</title>
+  <title>Backend Engine - Register</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
@@ -145,7 +145,11 @@
 
         if (response.ok) {
           // Handle successful signup
-          alert('Signup successful!');
+          const ID = result.ID;
+          console.log('User ID:', ID);
+          localStorage.setItem('userID', ID);
+
+          alert('Signup successfully!');
           window.location.href = '../../index.html';
         } else {
           // Handle errors

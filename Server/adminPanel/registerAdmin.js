@@ -40,6 +40,14 @@ router.post('/', async (req, res) => {
   const expireDate = planDetails.expireDate();
 
   try {
+
+    const switchDatabase = `USE backendengin`;
+    await pool.query(switchDatabase);
+
+    const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE email = ?', [email]);
+    if (existingUser.length > 0) {
+        return res.status(400).json({ message: 'email is already registered' });
+    }
     const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS \`${schemaID}\``;
     await pool.query(createDatabaseQuery);
 
@@ -69,7 +77,7 @@ router.post('/', async (req, res) => {
     await pool.query('USE backendengin');
     await pool.query('INSERT INTO adminpanel (ID, email, password_hash, userLimitaion, expireDate, schemaID) VALUES (?, ?, ?, ?, ?, ?)', [adminID, email, hashedPassword, userLimitation, expireDate, schemaID]);
 
-    res.status(201).json({ message: `Admin panel with SchemaID: ${schemaID} created successfully` });
+    res.status(201).json({ message: `Admin panel with SchemaID: ${schemaID} created successfully`, ID: adminID});
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal server error', details: error });
@@ -77,9 +85,9 @@ router.post('/', async (req, res) => {
 });
 
 function generateRandomToken() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let token = '';
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 50; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     token += characters.charAt(randomIndex);
   }
