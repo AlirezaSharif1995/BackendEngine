@@ -18,7 +18,8 @@ const pool = mysql.createPool({
     const { email, password } = req.body;
 
     try {
-
+        const switchDatabase = `USE backendengin`;
+        await pool.query(switchDatabase);
     const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE email = ?', [email]);
     if (existingUser.length === 0) {
         return res.status(404).json({ error: 'User not found' });
@@ -37,6 +38,7 @@ const pool = mysql.createPool({
     res.status(200).json({ message: 'Login successful', user });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: 'Internal server error', details: error });
     }
     
