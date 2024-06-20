@@ -1,8 +1,26 @@
-$(function() {
+$( async function() {
   /* ChartJS
    * -------
    * Data and config for chartjs
    */
+  const ID = localStorage.getItem('userID');
+  const sendData = { ID:ID };
+
+  const response = await fetch('/loginAdmin/getAdminInfo', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(sendData)
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const recivedData = await response.json();
+
+
   'use strict';
   var data = {
     labels: ["0", "5", "10", "15", "20", "25", "30"],
