@@ -269,7 +269,7 @@
                 <div class="card-body">
                   <p class="card-title text-md-center text-xl-left">Unique Users</p>
                   <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
-                    <h3 id="expiredDate" class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"></h3>
+                    <h3 id="uniqueUser" class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"></h3>
                     <i class="ti-agenda icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
                   </div>  
                   <p id="remainingDays" class="mb-0 mt-2 text-success"></p>
@@ -396,21 +396,7 @@
 
   // Check if response is okay before updating UI
   if (response.ok) {
-    document.getElementById('adminID').textContent = ID;
-    document.getElementById('schemaID').textContent = data.user.schemaID;
-    document.getElementById('RegisteredUsers').textContent = data.user.rowCount;
-    document.getElementById('dailyActiveUsers').textContent = data.user.dailyUser;
-
-    // Update expiration date if needed
-    const expirationDate = new Date(data.user.expireDate);
-    const formattedExpirationDate = expirationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    document.getElementById('expiredDate').textContent = formattedExpirationDate;
-
-    const currentDate = new Date();
-    const timeDifference = expirationDate.getTime() - currentDate.getTime();
-    const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
-
-    document.getElementById('remainingDays').textContent = `${daysRemaining} Days remaining`;
+    document.getElementById('uniqueUser').textContent = data.user.rowCount;
 
   } else {
     console.error('Failed to fetch data:', data.error);
@@ -421,9 +407,9 @@
 }
 
   }
-
   // Call fetchData when the page loads
-  // fetchData();
+   fetchData();
+
 </script>
 
 

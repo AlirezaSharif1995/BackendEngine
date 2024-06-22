@@ -6,7 +6,7 @@ $( async function() {
   const ID = localStorage.getItem('userID');
   const sendData = { ID:ID };
 
-  const response = await fetch('/loginAdmin/getAdminInfo', {
+  const response = await fetch('/loginAdmin/updateCharts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -18,35 +18,42 @@ $( async function() {
     throw new Error('Network response was not ok');
   }
 
-  const recivedData = await response.json();
+  
+        // Assuming `recivedData` is the data received from the server
+        const recivedData = await response.json();
 
+        // Extract dates and counts
+        const dates = recivedData.user.last7DaysLoginCounts.map(item => item.date);
+        const counts = recivedData.user.last7DaysLoginCounts.map(item => item.count);
 
-  'use strict';
-  var data = {
-    labels: ["0", "5", "10", "15", "20", "25", "30"],
-    datasets: [{
-      label: '# of Votes',
-      data: [15, 10, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    }]
-  };
+        // Create the data object for Chart.js
+        var data = {
+            labels: dates,
+            datasets: [{
+                label: 'First Logins in Last 7 Days',
+                data: counts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(75, 192, 192, 0.2)' // added extra color for 7th day
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(75, 192, 192, 1)' // added extra border color for 7th day
+                ],
+                borderWidth: 1,
+                fill: false
+            }]
+        };
   var options = {
     scales: {
       yAxes: [{
