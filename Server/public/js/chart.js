@@ -23,8 +23,12 @@ $( async function() {
         const recivedData = await response.json();
 
         // Extract dates and counts
-        const dates = recivedData.user.last7DaysLoginCounts.map(item => item.date);
+        const dates = recivedData.user.last7DaysLoginCounts.map(item => {
+          const date = new Date(item.date);
+          return date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }); // Format MM-DD
+      });
         const counts = recivedData.user.last7DaysLoginCounts.map(item => item.count);
+
 
         // Create the data object for Chart.js
         var data = {

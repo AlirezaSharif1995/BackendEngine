@@ -71,6 +71,29 @@ router.post('/', async (req, res) => {
     `;
     await pool.query(createUsersTableQuery);
 
+    const createEventTableQuery = `
+  CREATE TABLE IF NOT EXISTS Events (
+    id VARCHAR(255) PRIMARY KEY,
+    eventName VARCHAR(255) NOT NULL,
+    eventTrigger int,
+    description TEXT,
+    status ENUM('active', 'inactive', 'completed') DEFAULT 'active',
+    eventData JSON,
+    frequency VARCHAR(255),
+    createdBy VARCHAR(255),
+    updatedBy VARCHAR(255),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    firstTimeTrigger TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    lastTimeTrigger TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    eventType VARCHAR(255),
+    priority INT,
+    FOREIGN KEY (userId) REFERENCES Users(id)
+  )
+    `;
+    await pool.query(createEventTableQuery);
+
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const adminID = generateRandomToken();

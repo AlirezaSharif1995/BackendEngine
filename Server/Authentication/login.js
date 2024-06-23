@@ -30,14 +30,11 @@ const pool = mysql.createPool({
                 return res.status(404).json({ error: 'Password is incorect' });
         }
 
-    const user = {
-        username: existingUser[0].username
-
-    };
+    const user =  existingUser[0].username;
     
     await pool.query('UPDATE users SET lastLogin = CURRENT_TIMESTAMP WHERE id = ?', [existingUser[0].id]);
 
-    res.status(200).json({ message: 'Login successful', user });
+    res.status(200).json({ message: 'Login successful', username: user });
 
     } catch (error) {
         res.status(500).json({ error: 'Internal server error', details: error });

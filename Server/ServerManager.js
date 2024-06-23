@@ -4,7 +4,8 @@ const http = require('http');
 const path = require('path');
 
 const { registerAdmin, loginAdmin, userManager } = require('./adminPanel');
-const { register, login } = require('./Authentication')
+const { register, login } = require('./Authentication');
+const { createEvent } = require('./eventHandler');
 
 const app = express();
 const PORT = 3030;
@@ -18,6 +19,7 @@ app.use('/loginAdmin',loginAdmin);
 app.use('/register', register);
 app.use('/login', login);
 app.use('/userManager', userManager);
+app.use('/createEvent', createEvent);
 
 
 server.listen(PORT, () => {

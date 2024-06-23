@@ -16,6 +16,9 @@ router.post('/', async(req,res)=>{
     const { email, password, location, username, schemaID, phoneNumber, label, tags } = req.body;
 
     try {
+        if(email == null || password == null ){
+            return res.status(400).json({ error: 'enter email and password' });
+        }
         const switchDatabaseQuery = `USE \`${schemaID}\``;
         await pool.query(switchDatabaseQuery);
 
