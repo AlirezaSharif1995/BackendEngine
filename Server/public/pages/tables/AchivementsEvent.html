@@ -166,21 +166,62 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="basic-table.html">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="ti-palette menu-icon"></i>
+              <span class="menu-title">UI Elements</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../pages/forms/basic_elements.html">
+              <i class="ti-layout-list-post menu-icon"></i>
+              <span class="menu-title">Form elements</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../pages/charts/chartjs.html">
+              <i class="ti-pie-chart menu-icon"></i>
+              <span class="menu-title">Charts</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../pages/tables/basic-table.html">
               <i class="ti-view-list-alt menu-icon"></i>
               <span class="menu-title">Tables</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../forms/Account.html">
-              <i class="ti-user menu-icon"></i>
-              <span class="menu-title">Account</span>
+            <a class="nav-link" href="../../pages/icons/themify.html">
+              <i class="ti-star menu-icon"></i>
+              <span class="menu-title">Icons</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../forms/Account.html">
-              <i class="ti-wallet menu-icon"></i>
-              <span class="menu-title">Balance</span>
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="ti-user menu-icon"></i>
+              <span class="menu-title">User Pages</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html"> Login </a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login-2.html"> Login 2 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html"> Register </a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register-2.html"> Register 2 </a></li>
+                <li class="nav-item"> <a class="nav-link" href="../../pages/samples/lock-screen.html"> Lockscreen </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../../documentation/documentation.html">
+              <i class="ti-write menu-icon"></i>
+              <span class="menu-title">Documentation</span>
             </a>
           </li>
         </ul>
@@ -192,29 +233,29 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Users Table</h4>
-                  <button type="button" class="btn btn-inverse-warning btn-fw">Search</button>
-                  <button type="button" class="btn btn-inverse-primary btn-fw">Add</button>
-                  <button type="button" class="btn btn-inverse-success btn-fw">Export</button>
-                  <button type="button" class="btn btn-inverse-danger btn-fw">Delete</button>
+                  <h4 class="card-title">Achievements</h4>
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-striped">
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>Email</th>
-                          <th>Location</th>
-                          <th>Phone Number</th>
-                          <th>Username</th>
-                          <th>Label</th>
-                          <th>Tags</th>
-                          <th>Is ban</th>
-                          <th>First Login</th>
-                          <th>Last Login</th>
+                          <th>
+                            Achievement
+                          </th>
+                          <th>
+                            Claim Number
+                          </th>
+                          <th>
+                            Claim Percentage
+                          </th>
+                          <th>
+                            Last User
+                          </th>
+                          <th>
+                            Last Time
+                          </th>
                         </tr>
                       </thead>
-                      <tbody id="usersTableBody">
-                        
+                      <tbody id="Achievements">
                       </tbody>
                     </table>
                   </div>
@@ -252,53 +293,69 @@
   <!-- Custom js for this page-->
   <!-- End custom js for this page-->
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    fetchUsersAndPopulateTable();
-  });
 
-  async function fetchUsersAndPopulateTable() {
-    try {
+<script>document.addEventListener('DOMContentLoaded', () => {
+  fetchUsersAndPopulateTable();
+});
+
+async function fetchUsersAndPopulateTable() {
+  try {
       const ID = localStorage.getItem('userID');
-      const sendData = { ID:ID };
+      const sendData = { ID: ID };
 
-      const response = await fetch('/userManager', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(sendData)
+      const response = await fetch('/userManager/getAchievements', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(sendData)
       });
 
+      if (!response.ok) {
+          console.error('Network response was not ok:', response.statusText);
+          return;
+      }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+          console.error('Response is not JSON:', contentType);
+          return;
+      }
+
       const data = await response.json();
+      console.log(data);
 
-      if (response.ok) {
-        const tbody = document.getElementById('usersTableBody');
-        tbody.innerHTML = '';
+      const tbody = document.getElementById('Achievements');
+      if (!tbody) {
+          console.error('Element with ID "Achievements" not found');
+          return;
+      }
+      tbody.innerHTML = '';
 
-        data.users.forEach(user => {
+      data.achievements.forEach(achievement => {
+          // Convert percentage to integer
+          const percentage = parseInt(parseFloat(achievement.percentage).toFixed(2));
+          const integerPercentage = parseInt(percentage) === parseFloat(percentage) ? parseInt(percentage) : parseFloat(percentage);
+
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.email}</td>
-            <td>${user.location}</td>
-            <td>${user.phoneNumber}</td>
-            <td>${user.username}</td>
-            <td>${user.label}</td>
-            <td>${user.tags}</td>
-            <td>${user.isBan}</td>
-            <td>${user.firstLogin}</td>
-            <td>${user.lastLogin}</td>
+              <td>${achievement.achievement}</td>
+              <td>${achievement.count}</td>
+              <td>${integerPercentage}%
+                  <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: ${percentage}%" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+              </td>
+              <td>${achievement.lastUserId}</td>
+              <td>${new Date(achievement.lastTime).toLocaleString()}</td>
           `;
           tbody.appendChild(row);
-        });
-      } else {
-        console.error('Failed to fetch data:', data.error);
-      }
-    } catch (error) {
+      });
+  } catch (error) {
       console.error('Error:', error);
-    }
   }
+}
+
 </script>
 
 </html>

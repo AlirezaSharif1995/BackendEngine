@@ -72,13 +72,11 @@ router.post('/', async (req, res) => {
     await pool.query(createUsersTableQuery);
 
     const createEventTableQuery = `
-  CREATE TABLE IF NOT EXISTS Events (
+    CREATE TABLE IF NOT EXISTS Events (
     id VARCHAR(255) PRIMARY KEY,
     eventName VARCHAR(255) NOT NULL,
-    eventTrigger int,
     description TEXT,
     status ENUM('active', 'inactive', 'completed') DEFAULT 'active',
-    eventData JSON,
     frequency VARCHAR(255),
     createdBy VARCHAR(255),
     updatedBy VARCHAR(255),
@@ -87,12 +85,35 @@ router.post('/', async (req, res) => {
     firstTimeTrigger TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     lastTimeTrigger TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     eventType VARCHAR(255),
-    priority INT,
-    FOREIGN KEY (userId) REFERENCES Users(id)
-  )
-    `;
+    priority INT)`;
     await pool.query(createEventTableQuery);
 
+    const createAchievementsTableQuery = `
+    CREATE TABLE IF NOT EXISTS Achievements (
+        id VARCHAR(255) PRIMARY KEY,
+        userId INT NOT NULL,
+        achievement VARCHAR(255),
+        timeEvent TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`;
+await pool.query(createAchievementsTableQuery);
+
+const createPurchasesTableQuery = `
+    CREATE TABLE IF NOT EXISTS Purchases (
+        id VARCHAR(255) PRIMARY KEY,
+        userId INT NOT NULL,
+        purchaseEvent VARCHAR(255),
+        timeEvent TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`;
+await pool.query(createPurchasesTableQuery);
+
+const createSessionsTableQuery = `
+    CREATE TABLE IF NOT EXISTS Sessions (
+        id VARCHAR(255) PRIMARY KEY,
+        userId INT NOT NULL,
+        session VARCHAR(255),
+        lastLogin TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`;
+await pool.query(createSessionsTableQuery);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

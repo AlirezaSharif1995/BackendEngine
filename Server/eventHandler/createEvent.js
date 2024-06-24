@@ -12,7 +12,7 @@ const pool = mysql.createPool({
   });
 
 router.post('/',async(req,res)=>{
-const { eventName, schemaID } = req.body;
+const { eventName, schemaID, description, eventType, priority } = req.body;
 
 try {
     if(eventName == null ){
@@ -26,15 +26,28 @@ try {
             return res.status(400).json({ error: 'eventName is already registered' });
         }
         const ID = generateRandomToken();
-        await pool.query('INSERT INTO events (ID, eventName) VALUES (?, ?)', [ID, eventName]);
-        res.status(201).json({ message: `event created successfully with ID:`, ID});
+        let insertValues = [ID, eventName ];
+        if (description) insertValues.push(description); else insertValues.push(null);
+        if (eventType) insertValues.push(eventType); else insertValues.push(null);
+        if (priority) insertValues.push(priority); else insertValues.push(null);
+        await pool.query('INSERT INTO events (ID, eventName, description, eventType, priority) VALUES (?, ?, ?, ?, ?)', insertValues);
+
+        const createEventTableQuery = `
+        CREATE TABLE IF NOT EXISTS \`${eventName}\` (
+            id VARCHAR(255) PRIMARY KEY,
+            userId INT NOT NULL,
+            eventTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`;
+    
+        // Execute the query
+        await pool.query(createEventTableQuery);
+        res.status(201).json({ message: `event created successfully`, ID});
     
     } catch (error) {
         console.error('Error occurred:', error);
         res.status(500).json({ error: 'Internal server error', details: error });
     }
 });
-
 
 function generateRandomToken() {
     let token = '';
