@@ -41,50 +41,6 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown me-1">
-            <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-bs-toggle="dropdown">
-              <i class="ti-email mx-0"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="messageDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="images/faces/face5.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal">David Grey
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    The meeting is cancelled
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal">Tim Cook
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    New product launch
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                    <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
-                </div>
-                <div class="item-content flex-grow">
-                  <h6 class="ellipsis font-weight-normal"> Johnson
-                  </h6>
-                  <p class="font-weight-light small-text text-muted mb-0">
-                    Upcoming board meeting
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
               <i class="ti-bell mx-0"></i>
@@ -95,39 +51,13 @@
               <a class="dropdown-item">
                 <div class="item-thumbnail">
                   <div class="item-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
+                    <i class="ti-heart mx-0"></i>
                   </div>
                 </div>
                 <div class="item-content">
-                  <h6 class="font-weight-normal">Application Error</h6>
+                  <h6 class="font-weight-normal">Backend Engin</h6>
                   <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                  <div class="item-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="item-content">
-                  <h6 class="font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item">
-                <div class="item-thumbnail">
-                  <div class="item-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="item-content">
-                  <h6 class="font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
+                    Welcome to Backend Engin
                   </p>
                 </div>
               </a>
@@ -135,20 +65,19 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-              <img src="images/faces/face28.jpg" alt="profile"/>
+                <img src="images/faces/face28.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary">
-                </i>
-                Logout 
-              </a>
+                <a class="dropdown-item" href="../../pages/ui-features/buttons.html">
+                    <i class="ti-user text-primary"></i>
+                    Account
+                </a>
+                <a class="dropdown-item" href="../../pages/samples/login-2.html">
+                    <i class="ti-power-off text-primary"></i>
+                    Logout
+                </a>
             </div>
-          </li>
+        </li>        
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
           <span class="ti-view-list"></span>
@@ -278,7 +207,7 @@
                     <h3 id="RegisteredUsers" class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0"></h3>
                     <i class="ti-user icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
                   </div>  
-                  <p class="mb-0 mt-2 text-danger">0.47% <span class="text-black ms-1"><small>(30 days)</small></span></p>
+                  <p id="userPercentage" class="mb-0 mt-2 text-success"></p>
                 </div>
               </div>
             </div>
@@ -300,9 +229,8 @@
                   <p class="card-title text-md-center text-xl-left">Server Status</p>
                   <div class="d-flex flex-wrap justify-content-between justify-content-md-center justify-content-xl-between align-items-center">
                     <h3 class="mb-0 mb-md-2 mb-xl-0 order-md-1 order-xl-0">Online</h3>
-                    <i class="ti-server icon-md text-muted mb-0 mb-md-3 mb-xl-0"></i>
+                    <i class="ti-server icon-md text-muted mb-0 mb-md-3 mb-xl-0 "></i>
                   </div>  
-                  <p class="mb-0 mt-2 text-success">23.00%<span class="text-black ms-1"><small>(30 days)</small></span></p>
                 </div>
               </div>
             </div>
@@ -354,63 +282,91 @@
   <script src="js/hoverable-collapse.js"></script>
   <script src="js/template.js"></script>
   <script src="js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
+  
   <script src="js/dashboard.js"></script>
-  <!-- End custom js for this page-->
+
 </body>
 
 <script>
-  async function fetchData() {
-    try {
-  const ID = localStorage.getItem('userID');
-  
-  const sendData = { ID:ID };
 
-  const response = await fetch('/loginAdmin/getAdminInfo', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(sendData)
-  });
+async function fetchData() {
+  try {
+      const ID = localStorage.getItem('userID');
+      const sendData = { ID };
 
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+      // Fetch admin info
+      const response = await fetch('/loginAdmin/getAdminInfo', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(sendData)
+      });
+
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+
+      // Check if response is okay before updating UI
+      if (response.ok) {
+          document.getElementById('adminID').textContent = ID;
+          document.getElementById('schemaID').textContent = data.user.schemaID;
+          document.getElementById('RegisteredUsers').textContent = data.user.rowCount;
+          document.getElementById('dailyActiveUsers').textContent = data.user.dailyUser;
+
+          // Update expiration date if needed
+          const expirationDate = new Date(data.user.expireDate);
+          const formattedExpirationDate = expirationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+          document.getElementById('expiredDate').textContent = formattedExpirationDate;
+
+          const currentDate = new Date();
+          const timeDifference = expirationDate.getTime() - currentDate.getTime();
+          const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+          document.getElementById('remainingDays').textContent = `${daysRemaining} Days remaining`;
+
+      } else {
+          console.error('Failed to fetch data:', data.error);
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
   }
+}
+async function userLimitation(){
+  try {
+    const ID = localStorage.getItem('userID');
+      const sendData = { ID };
 
-  const data = await response.json();
+      const response = await fetch('/userManager/userLimitationStats', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(sendData)
+      });
 
-  // Check if response is okay before updating UI
-  if (response.ok) {
-    document.getElementById('adminID').textContent = ID;
-    document.getElementById('schemaID').textContent = data.user.schemaID;
-    document.getElementById('RegisteredUsers').textContent = data.user.rowCount;
-    document.getElementById('dailyActiveUsers').textContent = data.user.dailyUser;
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data)
 
-    // Update expiration date if needed
-    const expirationDate = new Date(data.user.expireDate);
-    const formattedExpirationDate = expirationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    document.getElementById('expiredDate').textContent = formattedExpirationDate;
+      if (response.ok) {
+      document.getElementById('userPercentage').textContent = data.percentage + "% of Server Limitaion is Fill";
+      } else {
+          console.error('Failed to fetch data:', data.error);
+      }
 
-    const currentDate = new Date();
-    const timeDifference = expirationDate.getTime() - currentDate.getTime();
-    const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
-
-    document.getElementById('remainingDays').textContent = `${daysRemaining} Days remaining`;
-
-  } else {
-    console.error('Failed to fetch data:', data.error);
+  } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
   }
-} catch (error) {
-  console.error('Error:', error);
-  alert('An error occurred. Please try again.');
 }
 
-  }
-
-  // Call fetchData when the page loads
-  fetchData();
+fetchData();
+userLimitation();
 </script>
 
 </html>
