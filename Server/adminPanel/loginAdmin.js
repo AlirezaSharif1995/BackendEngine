@@ -11,45 +11,45 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-  });
+});
 
-  router.post('/',async (req,res)=>{
+router.post('/', async (req, res) => {
 
     const { email, password } = req.body;
 
     try {
         const switchDatabase = `USE backendengin`;
         await pool.query(switchDatabase);
-    const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE email = ?', [email]);
-    if (existingUser.length === 0) {
-        return res.status(404).json({ error: 'User not found' });
-    }
+        const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE email = ?', [email]);
+        if (existingUser.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
-    const match = await bcrypt.compare(password, existingUser[0].password_hash);
-    if (!match) {
+        const match = await bcrypt.compare(password, existingUser[0].password_hash);
+        if (!match) {
             return res.status(404).json({ error: 'Password is incorect' });
-    }
+        }
 
-    const user = {
-        ID: existingUser[0].ID,
-        schemaID: existingUser[0].schemaID,
-    };
+        const user = {
+            ID: existingUser[0].ID,
+            schemaID: existingUser[0].schemaID,
+        };
 
-    res.status(200).json({ message: 'Login successful', user });
+        res.status(200).json({ message: 'Login successful', user });
 
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Internal server error', details: error });
     }
-    
-  });
 
-  router.post('/inAppLogin',async (req,res)=>{
+});
+
+router.post('/inAppLogin', async (req, res) => {
 
     const { ID } = req.body;
-    
-    try {
 
+    try {
+console.log(req.body)
         const switchDatabase = `USE backendengin`;
         await pool.query(switchDatabase);
         const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE ID = ?', [ID]);
@@ -57,21 +57,22 @@ const pool = mysql.createPool({
             return res.status(404).json({ error: 'User not found' });
         }
 
-    const user = {
-        ID: existingUser[0].ID,
-        schemaID: existingUser[0].schemaID,
-    };
+        const user = {
+            ID: existingUser[0].ID,
+            schemaID: existingUser[0].schemaID,
+            baseURL: existingUser[0].baseURL
+        };
 
-    res.status(200).json({ message: 'Login successful', user });
+        res.status(200).json({ message: 'Login successful', user });
 
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Internal server error', details: error });
     }
-    
-  });
 
-  router.post('/getAdminInfo',async (req,res) => {
+});
+
+router.post('/getAdminInfo', async (req, res) => {
     const { ID } = req.body;
 
     try {
@@ -100,15 +101,15 @@ const pool = mysql.createPool({
         };
 
         res.status(200).json({ message: 'Login successful', user });
-        
+
     } catch (error) {
         console.log(error)
-            res.status(500).json({ error: 'Internal server error', details: error });
+        res.status(500).json({ error: 'Internal server error', details: error });
     }
 
-  });
+});
 
-  router.post('/updateCharts', async (req, res) => {
+router.post('/updateCharts', async (req, res) => {
     const { ID } = req.body;
 
     try {
@@ -170,4 +171,4 @@ const pool = mysql.createPool({
 });
 
 
-  module.exports = router;
+module.exports = router;
