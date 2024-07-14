@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
 router.post('/inAppLogin', async (req, res) => {
 
     const { ID } = req.body;
-
+console.log(req.body)
     try {
 console.log(req.body)
         const switchDatabase = `USE backendengin`;
