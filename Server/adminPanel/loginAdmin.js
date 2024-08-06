@@ -49,7 +49,7 @@ router.post('/inAppLogin', async (req, res) => {
     const { ID } = req.body;
 console.log(req.body)
     try {
-console.log(req.body)
+
         const switchDatabase = `USE backendengin`;
         await pool.query(switchDatabase);
         const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE ID = ?', [ID]);

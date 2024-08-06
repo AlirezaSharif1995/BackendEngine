@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 
     const [existingUser] = await pool.query('SELECT * FROM adminpanel WHERE email = ?', [email]);
     if (existingUser.length > 0) {
-        return res.status(400).json({ message: 'email is already registered' });
+      return res.status(400).json({ message: 'email is already registered' });
     }
     const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS \`${schemaID}\``;
     await pool.query(createDatabaseQuery);
@@ -107,7 +107,7 @@ router.post('/', async (req, res) => {
     )`;
     await pool.query(createPurchasesTableQuery);
 
-const createSessionsTableQuery = `
+    const createSessionsTableQuery = `
     CREATE TABLE IF NOT EXISTS Sessions (
         id VARCHAR(255) PRIMARY KEY,
         userId INT NOT NULL,
@@ -116,7 +116,7 @@ const createSessionsTableQuery = `
     )`;
     await pool.query(createSessionsTableQuery);
 
-const createAlertTableQuery = `
+    const createAlertTableQuery = `
     CREATE TABLE IF NOT EXISTS Alert (
         id VARCHAR(255) PRIMARY KEY,
         userId INT NOT NULL,
@@ -126,12 +126,12 @@ const createAlertTableQuery = `
     await pool.query(createAlertTableQuery);
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    const baseURL = "https://62.60.211.144:443";
     const adminID = generateRandomToken();
     await pool.query('USE backendengin');
-    await pool.query('INSERT INTO adminpanel (ID, email, password_hash, userLimitaion, expireDate, schemaID) VALUES (?, ?, ?, ?, ?, ?)', [adminID, email, hashedPassword, userLimitation, expireDate, schemaID]);
+    await pool.query('INSERT INTO adminpanel (ID, email, password_hash, userLimitaion, expireDate, schemaID, baseURL) VALUES (?, ?, ?, ?, ?, ?, ?)', [adminID, email, hashedPassword, userLimitation, expireDate, schemaID, baseURL]);
 
-    res.status(201).json({ message: `Admin panel with SchemaID: ${schemaID} created successfully`, ID: adminID});
+    res.status(201).json({ message: `Admin panel with SchemaID: ${schemaID} created successfully`, ID: adminID });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal server error', details: error });
